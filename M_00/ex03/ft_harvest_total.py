@@ -1,6 +1,6 @@
-def ft_harvest_total():
-    c = 1
-    total = 0
+def ft_harvest_total() -> None:
+    c: int = 1
+    total: int = 0
     while c < 4:
         total += int(input(f"Day {c} harvest: "))
         c += 1
