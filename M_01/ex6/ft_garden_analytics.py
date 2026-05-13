@@ -1,4 +1,3 @@
-from typing import Self
 class Plant():
     class Stats:
         def __init__(self) -> None:
@@ -14,9 +13,8 @@ class Plant():
     def __init__(self, name: str, height: float, age: int) -> None:
         self.__name = name
         self.__height = height
-        self.__age= age
-        self._stats= Plant.Stats()
-
+        self.__age = age
+        self._stats = Plant.Stats()
 
     @staticmethod
     def is_older(days: int) -> bool:
@@ -85,28 +83,38 @@ class Flower(Plant):
         super().show()
         print(f"color: {self.color}")
 
+
 class Seed(Flower):
-    def __init__(self, name: str, height: float, age: int, color: str, seed: int) -> None:
+    def __init__(
+        self,
+        name: str,
+        height: float,
+        age: int,
+        color: str,
+        seed: int
+    ) -> None:
         super().__init__(name, height, age, color)
         self._seed: int = seed
 
     def show(self) -> None:
         super().show()
-        self._seed  += 1
+        self._seed += 1
         print(f"The atual seed is {self._seed}")
 
     def display_stats(self) -> None:
         super().display_stats()
         print(f"seed = {self._seed}")
+
+
 class Tree(Plant):
     def __init__(
-            self,
-            name: str,
-            height: float,
-            age: int,
-            trunk_diameter: float,
-            numbers_shades:int
-    ):
+        self,
+        name: str,
+        height: float,
+        age: int,
+        trunk_diameter: float,
+        numbers_shades: int
+    ) -> None:
         super().__init__(name, height, age)
         self.trunk_diameter: float = trunk_diameter
         self.numbers_shade: int = numbers_shades
@@ -126,32 +134,9 @@ class Tree(Plant):
         print(f"shade = {self.numbers_shade}")
 
 
-# class Vegetable(Plant):
-#     def __init__(
-#             self,
-#             name: str,
-#             height: float,
-#             age: int,
-#             harvest_season: str,
-#             nutritional_value: int
-#     ):
-#         super().__init__(name, height, age)
-#         self.harvest_season = harvest_season
-#         self.nutritional_value = nutritional_value
-
-#     def show(self):
-#         super().show()
-#         print(f"Harvest_season: {self.harvest_season},", end=" ")
-#         print(f"NV: {self.nutritional_value}")
-
-#     def incrise(self):
-#         super().grow()
-#         super()._age()
-#         self.nutritional_value += 1
-#         print("YOU JUST UPGRADE THE PLANT")
-
 def content(display: str) -> None:
     print("=" * 3 + f" {display} " + "=" * 3)
+
 
 def statics():
     flower1 = Flower("SAKURA", 5.4, 10, "RED")
@@ -159,7 +144,6 @@ def statics():
     content("Check years old")
     print(f"Is {30} days older than a year -> {flower1.is_older(30)}")
     print(f"Is {400} days older than a year -> {flower1.is_older(400)} \n")
-
     content("Flower")
     flower1.show()
     flower1.display_stats()
@@ -170,7 +154,7 @@ def statics():
     flower1.display_stats()
 
     content("\nTree")
-    tree  = Tree("BIA", 13.7, 90, 12.6, 3)
+    tree = Tree("BIA", 13.7, 90, 12.6, 3)
     tree.show()
     tree.display_stats()
     tree.produce_shade()
@@ -185,5 +169,6 @@ def statics():
     seed.bloom()
     seed.show()
     seed.display_stats()
-if __name__ == "__main__":
-    statics()
+
+# if __name__ == "__main__":
+#     statics()
