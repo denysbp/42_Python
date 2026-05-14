@@ -1,36 +1,28 @@
 import sys
 
-print("=== Player Score Analytics ===")
-print("Scores processed: [", end="")
-c: int = 1
-while c < len(sys.argv):
-    if c < len(sys.argv):
-        print(f"{sys.argv[c]}", end=", ")
-    c += 1
-print("]")
-lista = list()
-for i in sys.argv:
-    try:
-        lista.append(int(sys.argv[i]))
-    except IndexError as e:
-        print(f"Index errado: {e}")
-print(f"Total players: {len(sys.argv)}")
-total: int = 0
-c: int = 1
-while c < len(sys.argv):
-    total += int(sys.argv[c])
-    c += 1
-print(f"Total score {total}")
-print(f"Average score: {total / len(sys.argv):.2f}")
-max: int = 0
-min: int = int(sys.argv[1])
-c = 1
-while c < len(sys.argv):
 
-    if max < int(sys.argv[c]):
-        max = int(sys.argv[c])
-    elif min > int(sys.argv[c]):
-        min = int(sys.argv[c])
-    c += 1
-print(f"Max score: {max}")
-print(f"Min score: {min}")
+def main() -> None:
+    print("\033[42;31;40m=== Player Score Analytics ===\033[m")
+    lista = list()
+    c: int = 1
+    try:
+        if len(sys.argv) <= 1:
+            raise IndexError("<score1> <score2> ...")
+        while c < len(sys.argv):
+            lista.append(int(sys.argv[c]))
+            c += 1
+        print(f"Scores processed: {lista}")
+        print(f"Total players: {len(lista)}")
+        print(f"Total score {sum(lista)}")
+        print(f"Average score: {sum(lista) / len(sys.argv):.2f}")
+        print(f"Max score: {max(lista)}")
+        print(f"Min score: {min(lista)}")
+        print(f"Score range: {max(lista) - min(lista)}")
+    except IndexError as e:
+        print(f"No scores provided: try {e}")
+    except ValueError as e:
+        print(f"Not number provides: {e}")
+
+
+if __name__ == '__main__':
+    main()
