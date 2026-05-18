@@ -17,7 +17,8 @@ def parse_args() -> dict:
             key, val = item.split(":", 1)
             args[key] = int(val)
         except ValueError:
-            raise SyntaxError("Wrong format: <item_name>:<quantity>")
+            print("Wrong format: <item_name>:<quantity>")
+            continue
     return args
 
 
@@ -30,15 +31,15 @@ def main() -> None:
     for key, item in args.items():
         percentagem: float = round((item / value) * 100)
         print(f"Item {key} represents {percentagem}%")
-    maior_item: str
+    maior_item: str = ""
     maior_value: int = 0
     for key, value in args.items():
         if value > maior_value:
             maior_value = value
             maior_item = key
     print(f"The most abundant: {maior_item} with {maior_value}")
-    menor_item: str
-    menor_value: int
+    menor_item: str = ""
+    menor_value: int = 0
     ok: int = 1
     for key, value in args.items():
         if ok:
@@ -53,7 +54,4 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    try:
-        parse_args()
-    except Exception as e:
-        print(f"{e}")
+    main()

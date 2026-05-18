@@ -23,7 +23,9 @@ def get_player_pos() -> tuple[float, float, float] | None:
 
 
 def main() -> None:
-    p1: tuple = get_player_pos()
+    p1: tuple[float, float, float] | None = get_player_pos()
+    if p1 is None:
+        return
     print(f"Got a first set of coordinates: {p1}")
     print(f"Tuple: X = {p1[0]} Y = {p1[1]} Z = {p1[2]}")
     distancia: float = math.sqrt(p1[0]**2 + p1[1]**2 + p1[2]**2)
@@ -31,7 +33,9 @@ def main() -> None:
 
     print("\n\n")
     print("Get a second set of coodinates")
-    p2 = get_player_pos()
+    p2: tuple[float, float, float] | None = get_player_pos()
+    if p2 is None:
+        return
     distancia_2 = math.sqrt(
         (p2[0] - p1[0])**2 + (p2[1] - p1[1])**2 + (p2[2] - p1[2])**2)
     print(f"Distance between the 2 sets of coordinates {distancia_2}")
