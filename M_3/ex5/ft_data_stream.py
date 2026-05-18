@@ -50,14 +50,9 @@ def gen_event() -> Generator[tuple[str, str], None, None]:
         yield (name, action)
 
 
-list_10: list[tuple] = list()
-for i in range(0, 10):
-    list_10.append(next(gen_event()))
-
-
 def consume_event(list_10: list[tuple]) -> \
         Generator[tuple[str, str], None, None]:
-    while list_10 is not None:
+    while list_10:
         choice: tuple = random.choice(list_10)
         list_10.remove(choice)
         yield choice
@@ -67,13 +62,13 @@ def main() -> None:
     for i in range(1, 1001):
         dados: tuple = next(gen_event())
         print(f"Event {i} : {dados[0]} did action {dados[1]}")
+    list_10: list[tuple] = list()
+    for i in range(0, 10):
+        list_10.append(next(gen_event()))
     print(f"Built list of 10 events: {list_10}")
-    while list_10 is not None:
-        try:
-            print(f"Got event from list: {next(consume_event(list_10))}")
-            print(f"Remain in list: {list_10}")
-        except Exception:
-            return
+    while list_10:
+        print(f"Remain in list: {list_10}")
+        print(f"Got event from list: {next(consume_event(list_10))}")
 
 
 if __name__ == '__main__':
