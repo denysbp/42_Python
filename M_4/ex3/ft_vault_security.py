@@ -12,7 +12,7 @@ def secure_archive(file_name: str, action: str, string: str = "") -> \
 
 
 def main() -> None:
-    secure_archive("ola.txt", "write", "ola meu mundo")
+    secure_archive("ola.txt", "read", "ola meu mundo")
 
 
 if __name__ == '__main__':

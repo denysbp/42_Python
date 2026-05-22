@@ -7,7 +7,7 @@ def main() -> None:
         raise Exception("Nothing To Read")
     try:
         print("=== Cyber Archives Recovery & Preservation ===")
-        print(f"Acessing file {sys.argv[1]}")
+        print(f"Acessing file '{sys.argv[1]}'")
         print("\n")
         file: IO[str] = open(sys.argv[1])
         file_1: IO[str] = open(sys.argv[1])

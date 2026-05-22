@@ -7,13 +7,17 @@ def main() -> None:
         raise Exception("Nothing To Read")
     try:
         file: IO[str] = open(sys.argv[1])
+        print(f"Abrindo o file '{sys.argv[1]}'")
         print(file.read())
         file.close()
+        print(f"File '{sys.argv[1]}' closed")
     except FileNotFoundError as e:
         print(f"{e}")
     except KeyboardInterrupt as e:
         print(f"\n{e}")
     except IndexError as e:
+        print(f"{e}")
+    except Exception as e:
         print(f"{e}")
 
 

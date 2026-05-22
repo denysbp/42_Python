@@ -22,15 +22,19 @@ def main() -> None:
         new_mod: str = ""
         for line in lines:
             new_mod += line + "#\n"
-        file_name: str = str(input("Tell the python the name pls: "))
+        print("Tell the python\
+ the name pls: ", end="")
+        sys.stdout.flush()
+        file_name: str = sys.stdin.readline()
+        file_name = file_name.strip()
         file = open(f"{file_name}", "w")
         file.write(new_mod)
         file.close()
         print("We modificate it with sucess")
     except FileNotFoundError as e:
         sys.stderr.write(f"[STDERR]: {e}\n")
-    except KeyboardInterrupt as e:
-        sys.stderr.write(f"\n[STDERR]: {e}\n")
+    except KeyboardInterrupt:
+        sys.stderr.write("\nVoce fechou o programa\n")
     except IndexError as e:
         sys.stderr.write(f"[STDERR]: {e}\n")
     except PermissionError as e:
