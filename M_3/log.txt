@@ -1,0 +1,359 @@
+import sys
+
+if __name__ == '__main__':
+    print("== command_quest ==")
+    c: int = 1
+    print(f"Program name: {sys.argv[0]}")
+    if len(sys.argv) == 1:
+        print("No Arguments provided!")
+    if len(sys.argv) > 1:
+        print(f"Arguments received: {len(sys.argv) - 1}")
+    while c < len(sys.argv):
+        print(f"Argument {c}: {sys.argv[c]}")
+        c += 1
+    if len(sys.argv) > 1:
+        print(f"Total arguments: {len(sys.argv)}")
+import sys
+
+
+def main() -> None:
+    print("\033[42;31;40m=== Player Score Analytics ===\033[m")
+    lista = list()
+    c: int = 1
+    if len(sys.argv) <= 1:
+        print("<score1> <score2> ...")
+        return
+    while c < len(sys.argv):
+        try:
+            lista.append(int(sys.argv[c]))
+            c += 1
+        except IndexError as e:
+            print(f"No scores provided: try {e}")
+            c += 1
+            continue
+        except ValueError as e:
+            print(f"Not number provides: {e}")
+            c += 1
+            continue
+    if len(lista) >= 1:
+        print(f"Score range: {max(lista) - min(lista)}")
+        print(f"Scores processed: {lista}")
+        print(f"Total players: {len(lista)}")
+        print(f"Total score {sum(lista)}")
+        score = (sum(lista) / len(lista))
+        print(f"Average score: {score}")
+        print(f"Max score: {max(lista)}")
+        print(f"Min score: {min(lista)}")
+
+
+if __name__ == '__main__':
+    main()
+import math
+
+
+def get_player_pos() -> tuple[float, float, float] | None:
+    print("=== Game Coordinate System ===")
+    print("Enter new coordinates as floats in format 'x,y,z'")
+    while True:
+        try:
+            dados = input("input the coordinates: x, y, z: ")
+            splited = dados.split(",")
+        except KeyboardInterrupt:
+            print("\nVocê fechou o programa!")
+            return None
+        try:
+            x_input, y_input, z_input = splited
+            x = float(x_input.strip())
+            y = float(y_input.strip())
+            z = float(z_input.strip())
+            return (x, y, z)
+        except Exception as e:
+            print(f"Something went wrong: {e}")
+            continue
+
+
+def main() -> None:
+    p1: tuple[float, float, float] | None = get_player_pos()
+    if p1 is None:
+        return
+    print(f"Got a first set of coordinates: {p1}")
+    print(f"Tuple: X = {p1[0]} Y = {p1[1]} Z = {p1[2]}")
+    distancia: float = math.sqrt(p1[0]**2 + p1[1]**2 + p1[2]**2)
+    print(f"Distance to center: {distancia:.3f}")
+
+    print("\n\n")
+    print("Get a second set of coodinates")
+    p2: tuple[float, float, float] | None = get_player_pos()
+    if p2 is None:
+        return
+    distancia_2 = math.sqrt(
+        (p2[0] - p1[0])**2 + (p2[1] - p1[1])**2 + (p2[2] - p1[2])**2)
+    print(f"Distance between the 2 sets of coordinates {distancia_2}")
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except Exception:
+        print("OPS!")
+import random
+
+
+def gen_player_achievements() -> set:
+    ACHIVEMENTS: list = [
+        "Rank_0",
+        "Rank_1",
+        "Rank_2",
+        "Rank_3",
+        "Rank_4",
+        "Rank_5",
+        "Rank_6",
+        "Master Mind",
+        "Pace 8",
+        "Piscine Reload",
+        "Tumo",
+        "life Guard"
+    ]
+    total: int = random.randint(1, len(ACHIVEMENTS))
+    player: set = set()
+    c: int = 0
+    while c < total:
+        player.add(random.choice(ACHIVEMENTS))
+        c += 1
+    return player
+
+
+def main() -> None:
+    p1: set = gen_player_achievements()
+    p2: set = gen_player_achievements()
+    p3: set = gen_player_achievements()
+    p4: set = gen_player_achievements()
+    all: set = p1.union(
+        p2,
+        p3,
+        p4
+    )
+    shared: set = p1.intersection(
+        p2,
+        p3,
+        p4
+    )
+    print("=== Achievement Tracker System ===")
+    print("Player 1 : ", p1)
+    print("Player 2 : ", p2)
+    print("Player 3 : ", p3)
+    print("Player 4 : ", p4)
+
+    print(f"Shared achivements: {shared}")
+    print("All unique achivements: ", all)
+
+    print("Only player 1 has: ", p1.difference(p2, p3, p4))
+    print("Only player 2 has: ", p2.difference(p1, p3, p4))
+    print("Only player 3 has: ", p3.difference(p1, p2, p4))
+    print("Only player 4 has: ", p4.difference(p1, p2, p3))
+
+    print("Player 1 is missing: ", all.difference(p1))
+    print("Player 2 is missing: ", all.difference(p2))
+    print("Player 3 is missing: ", all.difference(p3))
+    print("Player 4 is missing: ", all.difference(p4))
+
+
+if __name__ == '__main__':
+    main()
+import sys
+
+
+def parse_args() -> dict:
+    args: dict[str, int] = dict()
+    lista: list = sys.argv[1:]
+    if (len(lista) == 0):
+        print("There is no args in inventory")
+        return {}
+    for arg in lista:
+        item: str = arg
+        if ":" not in item:
+            print(f"Item rejeitado: {item}")
+            continue
+        key: str
+        val: str
+        try:
+            key, val = item.split(":", 1)
+            if key in args.keys() or int(val) < 0:
+                if int(val) < 0:
+                    print(f"Numero negativo invalido! {val}")
+                else:
+                    print(f"Redundant item '{key}' ")
+                continue
+            else:
+                args[key] = int(val)
+        except ValueError:
+            print(f"Wrong format for {val}: <item_name>:<quantity>")
+            continue
+    if len(args) == 0:
+        print("There is no args in inventory")
+    return args
+
+
+def main() -> None:
+    args: dict = parse_args()
+    values: int = sum(args.values())
+    print(f"Got inventory: {args}")
+    print(f"Item List: {list(args.keys())}")
+    print(f"Total quantity of the {len(args)} items: {values}")
+    for key, qty in args.items():
+        try:
+            percentagem: float = round((qty / values) * 100)
+            print(f"Item {key} represents {percentagem}%")
+        except ZeroDivisionError as e:
+            print(f"We caught {e}")
+    maior_item: str = ""
+    maior_value: int = 0
+    ok_1: int = 1
+    for key, value in args.items():
+        if ok_1:
+            maior_value = value
+            maior_item = key
+            ok_1 = 0
+        if value > maior_value:
+            maior_value = value
+            maior_item = key
+    print(f"The most abundant: {maior_item} with {maior_value}")
+    menor_item: str = ""
+    menor_value: int = 0
+    ok: int = 1
+    for key, value in args.items():
+        if ok:
+            menor_value = value
+            menor_item = key
+            ok = 0
+        elif value < menor_value:
+            menor_value = value
+            menor_item = key
+    print(f"The least abundant: {menor_item} with {menor_value}")
+    args.update({"money": 1000})
+    print(f"Update inventory: {args}")
+
+
+if __name__ == '__main__':
+    main()
+from typing import Generator
+import random
+
+
+def gen_event() -> Generator[tuple[str, str], None, None]:
+    action_list: list = [
+        "Run",
+        "Walk",
+        "Cry",
+        "Laught",
+        "Go to the bathroom",
+        "Cagar",
+        "Get a job",
+        "Fired",
+        "Nothing",
+        "Listen to Spotify",
+        "Get black hole",
+        "Reproved",
+        "T-rex",
+        "Study",
+        "code",
+        "Drive",
+        "Draw",
+        "git push",
+        "git add",
+        "git commit",
+        "Drink(water)",
+        "Smoke(O2)",
+    ]
+    name_list: list = [
+        "Denys",
+        "Paulo",
+        "Pedro",
+        "Lucas",
+        "Mariana",
+        "Joao",
+        "Sofia",
+        "Tiago",
+        "Carla",
+        "Miguel",
+        "Beatriz",
+        "Andre",
+        "Rita",
+        "Afonso",
+        "Diana"
+    ]
+    name: str = random.choice(name_list)
+    action: str = random.choice(action_list)
+    while True:
+        yield (name, action)
+
+
+def consume_event(list_10: list[tuple]) -> \
+        Generator[tuple[str, str], None, None]:
+    while list_10:
+        choice: tuple = random.choice(list_10)
+        list_10.remove(choice)
+        yield choice
+
+
+def main() -> None:
+    for i in range(1, 1001):
+        dados: tuple = next(gen_event())
+        print(f"Event {i} : {dados[0]} did action {dados[1]}")
+    list_10: list[tuple] = list()
+    for i in range(0, 10):
+        list_10.append(next(gen_event()))
+    print(f"Built list of 10 events: {list_10}")
+    for c in consume_event(list_10):
+        print(f"Remain in list: {list_10}")
+        if list_10:
+            print(f"Got event from list: {c}")
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except Exception as e:
+        print(f"{e}")
+import random
+
+
+def main() -> None:
+    lista: list = [
+        'Alice',
+        'bob',
+        'Charlie',
+        'dylan',
+        'Emma',
+        'Gregory',
+        'john',
+        'kevin',
+        'Liam'
+    ]
+    print(f"Initial list of playears: {lista}")
+    all_lista_capit: list = [x for x in lista if x == str.capitalize(x)]
+    new_lista_capit: list = [str.capitalize(x) for x in lista]
+    print(f"New list with all names capitalized: {new_lista_capit}")
+    print(f"New list of capitalized names only {all_lista_capit}")
+    # The subject allow if it pass line size
+    dici: dict[str, int] = {
+        nome: random.randint(0, 600) for nome in all_lista_capit
+    }
+    print(f"Score dict: {dici}")
+    total_value: int = 0
+    for value in dici.values():
+        total_value += value
+    average: float = round(total_value / len(dici))
+    print(f"Score average is {average}")
+    # The subject allow if it pass line size
+    high_score: dict = {
+        nome: score for (nome, score) in dici.items() if score > average
+    }
+    print(f"High Scores: {high_score}")
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except Exception as e:
+        print(f"{e}")

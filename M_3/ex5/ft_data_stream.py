@@ -66,10 +66,10 @@ def main() -> None:
     for i in range(0, 10):
         list_10.append(next(gen_event()))
     print(f"Built list of 10 events: {list_10}")
-    for c in range(0, 11):
+    for c in consume_event(list_10):
         print(f"Remain in list: {list_10}")
         if list_10:
-            print(f"Got event from list: {next(consume_event(list_10))}")
+            print(f"Got event from list: {c}")
 
 
 if __name__ == '__main__':

@@ -26,10 +26,11 @@ def main() -> None:
     total_value: int = 0
     for value in dici.values():
         total_value += value
-    print(f"Score average is {round(total_value / len(dici))}")
+    average: float = round(total_value / len(dici))
+    print(f"Score average is {average}")
     # The subject allow if it pass line size
     high_score: dict = {
-        nome: score for (nome, score) in dici.items() if score > 300
+        nome: score for (nome, score) in dici.items() if score > average
     }
     print(f"High Scores: {high_score}")
 

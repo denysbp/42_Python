@@ -16,14 +16,24 @@ def parse_args() -> dict:
         val: str
         try:
             key, val = item.split(":", 1)
-            args[key] = int(val)
+            if key in args.keys() or int(val) < 0:
+                if int(val) < 0:
+                    print(f"Numero negativo invalido! {val}")
+                else:
+                    print(f"Redundant item '{key}' ")
+                continue
+            else:
+                args[key] = int(val)
         except ValueError:
             print(f"Wrong format for {val}: <item_name>:<quantity>")
             continue
+    if len(args) == 0:
+        print("There is no args in inventory")
     return args
 
 
 def main() -> None:
+    print("=== Inventory System Analysis ===")
     args: dict = parse_args()
     values: int = sum(args.values())
     print(f"Got inventory: {args}")
