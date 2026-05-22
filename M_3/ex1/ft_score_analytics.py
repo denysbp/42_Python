@@ -21,7 +21,6 @@ def main() -> None:
             c += 1
             continue
     if len(lista) >= 1:
-        print(f"Score range: {max(lista) - min(lista)}")
         print(f"Scores processed: {lista}")
         print(f"Total players: {len(lista)}")
         print(f"Total score {sum(lista)}")
@@ -29,6 +28,7 @@ def main() -> None:
         print(f"Average score: {score}")
         print(f"Max score: {max(lista)}")
         print(f"Min score: {min(lista)}")
+        print(f"Score range: {max(lista) - min(lista)}")
 
 
 if __name__ == '__main__':
