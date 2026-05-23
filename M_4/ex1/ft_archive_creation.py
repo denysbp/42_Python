@@ -10,32 +10,46 @@ def main() -> None:
         print(f"Acessing file '{sys.argv[1]}'")
         print("\n")
         file: IO[str] = open(sys.argv[1])
-        file_1: IO[str] = open(sys.argv[1])
         content: str = file.read()
-        content_1: str = file_1.read()
-        lines_1: list[str] = content_1.splitlines()
-        for i, line in enumerate(lines_1):
-            print(f"[FRAGMENT {i}] {line}")
-        print("\n--")
-        print(f"File {sys.argv[1]} closed")
         print("\n--")
         print("Transforming data")
         file.close()
         lines: list[str] = content.splitlines()
-        new_mod: str = ""
-        for line in lines:
-            new_mod += line + "#\n"
-        file_name: str = str(input("Tell the python the name pls: "))
-        file = open(f"{file_name}", "w")
-        file.write(new_mod)
-        file.close()
-        print("We modificate it with sucess")
+        new_mod: str = '\n'.join(linha + '#' for linha in lines) + '\n'
+        print(new_mod)
+        print("\n--")
+        erro = 0
+        while True:
+            decision = input("Do you want to save?:")
+            if decision not in ("y", "n"):
+                print("y/n")
+                erro += 1
+                if erro == 3:
+                    input("Really?")
+                continue
+            if decision in "y":
+                file_name: str = str(input("Tell the python the name pls: "))
+                file = open(f"{file_name}", "w")
+                file.write(new_mod)
+                print("We modificate it with sucess")
+                file.close()
+                file = open(f"{file_name}", "r")
+                print("Abrindo o Novo file...")
+                print(file.read())
+                file.close()
+                print("Novo file fechado")
+                break
+            else:
+                print("Bye evaluator :(")
+                break
     except FileNotFoundError as e:
         print(f"{e}")
     except KeyboardInterrupt as e:
-        print(f"\n{e}")
+        print(f"\nEMERGENCY,WE STOP IT!!{e}")
     except IndexError as e:
         print(f"{e}")
+    except PermissionError as e:
+        print(f"\n {e}")
 
 
 if __name__ == '__main__':
