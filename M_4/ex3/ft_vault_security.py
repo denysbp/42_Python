@@ -2,21 +2,46 @@ def secure_archive(file_name: str, action: str, string: str = "") -> \
         tuple[bool, str]:
     action = action.lower()
     try:
-        with open(f"{file_name}", "+a") as file:
-            if action == "read":
-                print(file.read())
-            elif action == "write":
+        if action == "read":
+            with open(f"{file_name}", "r") as file:
+                data = file.read()
+                return (True, data)
+        elif action == "write":
+            if not string:
+                return (False, "[STDERR]: Invalid content")
+            with open(f"{file_name}", "w") as file:
                 file.write(string)
-    except ValueError as e:
-        print(f"{e}")
+                return (True, "Write successfully")
+        else:
+            return (False, "[STDERR]: Invalid action")
+    except FileNotFoundError:
+        return (False, f"[STDERR]: File {file_name} not found ")
+    except PermissionError as e:
+        return (False, f"[STDERR]: Permission: {e}")
+    except Exception as e:
+        return (False, f"{e}")
 
 
 def main() -> None:
-    secure_archive("ola.txt", "write", "ola meu mundo")
+    print("==== Teste 1 ====")
+    data = secure_archive("ola.txt", "wreite", "ola meu mundo$")
+    print(data)
+
+    print("\n--------")
+    print("==== Teste 2 ====")
+    data = secure_archive("ola.txt", "write", "something to passs")
+    print(data)
+
+    print("\n--------")
+    print("==== Teste 3 ====")
+    data = secure_archive("ex0/ft_ancient_text.py", "read")
+    print(data)
+
+    print("\n--------")
+    print("==== Teste 3 ====")
+    data = secure_archive("ex0/ft_ancient_text.py", "write", None)
+    print(data)
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except Exception as e:
-        print(f"{e}")
+    main()
