@@ -32,10 +32,7 @@ def main() -> None:
                 file = open(f"{file_name}", "w")
                 file.write(new_mod)
                 print("We modificate it with sucess")
-                file.close()
-                file = open(f"{file_name}", "r")
-                print("Abrindo o Novo file...")
-                print(file.read())
+                print(f"It is save on {file_name}")
                 file.close()
                 print("Novo file fechado")
                 break
@@ -43,7 +40,7 @@ def main() -> None:
                 print("Bye evaluator :(")
                 break
     except FileNotFoundError as e:
-        print(f"{e}")
+        print(f"\n{e}")
     except KeyboardInterrupt as e:
         print(f"\nEMERGENCY,WE STOP IT!!{e}")
     except IndexError as e:

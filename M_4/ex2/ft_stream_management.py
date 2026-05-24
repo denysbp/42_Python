@@ -45,17 +45,17 @@ def main() -> None:
                 print("Bye evaluator :(")
                 break
     except FileNotFoundError as e:
-        sys.stderr.write(f"[STDERR]: {e}\n")
+        sys.stderr.write(f"[STDERR] {e}\n")
     except KeyboardInterrupt:
-        sys.stderr.write("\nVoce fechou o programa\n")
+        sys.stderr.write("\n[STDERR] Voce fechou o programa\n")
     except IndexError as e:
-        sys.stderr.write(f"[STDERR]: {e}\n")
+        sys.stderr.write(f"[STDERR] {e}\n")
     except PermissionError as e:
-        sys.stderr.write(f"[STDERR]: {e}\n")
+        sys.stderr.write(f"[STDERR] {e}\n")
 
 
 if __name__ == '__main__':
     try:
         main()
     except Exception as e:
-        sys.stderr.write(f"[STDERR]: {e}\n")
+        sys.stderr.write(f"[STDERR] {e}\n")
