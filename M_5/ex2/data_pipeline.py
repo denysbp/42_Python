@@ -194,7 +194,8 @@ def main() -> None:
             {"up": "You just passed"},
             {"down": "You just failt on the exame"},
             200000,
-            [5, 3, 10]
+            40,
+            [5, 3]
     ]
     print(f"Sending the first bacth of Data stream {dados}")
     stream.process_stream(dados)
@@ -214,6 +215,8 @@ def main() -> None:
     except IndexError as e:
         print(f"{e}")
         return
+    except Exception as e:
+        print(f"{e}")
     stream.print_processors_stats()
     print("Send 3 processed data from each processor to a CSV plugin:")
     stream.output_pipeline(3, CSVExportPlugin())

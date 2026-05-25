@@ -141,11 +141,10 @@ def main() -> None:
     print("=== Code Nexus - Data Stream ===")
     print("Initialized DataStream")
     stream: DataStream = DataStream()
+    print("\n")
     stream.print_processors_stats()
     print("Registering Processors")
     stream.register_processor(NumericProcessor())
-    stream.register_processor(TextProcessor())
-    stream.register_processor(LogProcessor())
     dados = [
             'Hello world',
             [3.14, -1, 2.71],
@@ -160,6 +159,14 @@ instead'},
     ]
     print(f"Sending the first bacth of Data stream {dados}")
     stream.process_stream(dados)
+    print("== DataStream statistics ==")
+    stream.print_processors_stats()
+    print("Registering other data processors")
+    stream.register_processor(LogProcessor())
+    stream.register_processor(TextProcessor())
+    print("Seding the same bacth again")
+    stream.process_stream(dados)
+    print("\n")
     print("== DataStream statistics ==")
     stream.print_processors_stats()
     print("Updating stats...")
