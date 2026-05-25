@@ -35,7 +35,7 @@ class NumericProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: int | float | list[int | float]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid data for NumericProcessor")
         if isinstance(data, list):
@@ -58,7 +58,7 @@ class TextProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: str | list[str]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid Data for TextProcessor")
         if isinstance(data, list):
@@ -89,14 +89,14 @@ class LogProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: dict[str, str] | list[dict[str, str]]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid data for LogPorcessor")
         if isinstance(data, dict):
             for key, value in data.items():
                 message: str = f"{key} : {value}"
                 self.storage.append((self.rank, str(message)))
-            self.rank += 1
+                self.rank += 1
         if isinstance(data, list):
             for item in data:
                 for key, value in item.items():

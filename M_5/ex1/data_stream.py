@@ -38,7 +38,7 @@ class NumericProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: int | float | list[int | float]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid data for NumericProcessor")
         if isinstance(data, list):
@@ -61,7 +61,7 @@ class TextProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: str | list[str]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid Data for TextProcessor")
         if isinstance(data, list):
@@ -92,14 +92,14 @@ class LogProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: dict[str, str] | list[dict[str, str]]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid data for LogPorcessor")
         if isinstance(data, dict):
             for key, value in data.items():
                 message: str = f"{key} : {value}"
                 self.storage.append((self.rank, str(message)))
-            self.rank += 1
+                self.rank += 1
         if isinstance(data, list):
             for item in data:
                 for key, value in item.items():
@@ -124,7 +124,7 @@ class DataStream:
                     exits = True
                     break
             if not exits:
-                print("Data error, Invalid type of data")
+                print(f"DataStream error, cant processor elements in {dados}")
 
     def print_processors_stats(self) -> None:
         if (len(self._processors) == 0):
@@ -150,7 +150,7 @@ def main() -> None:
             'Hello world',
             [3.14, -1, 2.71],
             [{'log_level': 'WARNING', 'log_message': 'Telnet access! Use ssh \
-                instead'},
+instead'},
                 {'log_level': 'INFO', 'log_message': 'User wil isconnected'}],
             42,
             54,
@@ -163,9 +163,9 @@ def main() -> None:
     print("== DataStream statistics ==")
     stream.print_processors_stats()
     print("Updating stats...")
-    numeric = stream._processors[0]
-    text = stream._processors[1]
-    log = stream._processors[2]
+    numeric = NumericProcessor()
+    text = TextProcessor()
+    log = LogProcessor()
     try:
         print("Consuming Numeric one time")
         numeric.output()
@@ -174,6 +174,9 @@ def main() -> None:
         print("Consuming Log one time")
         log.output()
     except IndexError as e:
+        print(f"{e}")
+        return
+    except Exception as e:
         print(f"{e}")
         return
     stream.print_processors_stats()
