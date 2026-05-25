@@ -3,7 +3,7 @@ from typing import List, Any
 
 
 class DataProcessor(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         self.storage: List = []
         self.rank = 0
 
@@ -25,7 +25,7 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     def validate(self, data: Any) -> bool:
@@ -103,13 +103,13 @@ class LogProcessor(DataProcessor):
         if isinstance(data, list):
             for item in data:
                 for key, value in item.items():
-                    message: str = f"{key} : {value}"
-                    self.storage.append((self.rank, str(message)))
+                    message_new: str = f"{key} : {value}"
+                    self.storage.append((self.rank, str(message_new)))
                     self.rank += 1
 
 
 class DataStream:
-    def __init__(self):
+    def __init__(self) -> None:
         self._processors: List[DataProcessor] = []
 
     def register_processor(self, proc: DataProcessor) -> None:
