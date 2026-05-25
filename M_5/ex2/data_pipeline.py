@@ -3,7 +3,7 @@ from typing import List, Any, Protocol
 
 
 class DataProcessor(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         self.storage: List = []
         self.rank = 0
 
@@ -27,7 +27,7 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     def validate(self, data: Any) -> bool:
@@ -40,7 +40,7 @@ class NumericProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: int | float | list[int | float]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid data for NumericProcessor")
         if isinstance(data, list):
@@ -63,7 +63,7 @@ class TextProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: str | list[str]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid Data for TextProcessor")
         if isinstance(data, list):
@@ -94,19 +94,19 @@ class LogProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: dict[str, str] | list[dict[str, str]]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid data for LogPorcessor")
         if isinstance(data, dict):
             for key, value in data.items():
                 message: str = f"{key} : {value}"
                 self.storage.append((self.rank, str(message)))
-            self.rank += 1
+                self.rank += 1
         if isinstance(data, list):
             for item in data:
                 for key, value in item.items():
-                    message: str = f"{key} : {value}"
-                    self.storage.append((self.rank, str(message)))
+                    message_new: str = f"{key} : {value}"
+                    self.storage.append((self.rank, str(message_new)))
                     self.rank += 1
 
 
@@ -132,7 +132,7 @@ class JSONExportPlugin:
 
 
 class DataStream:
-    def __init__(self):
+    def __init__(self) -> None:
         self._processors: List[DataProcessor] = []
 
     def register_processor(self, proc: DataProcessor) -> None:
@@ -147,7 +147,7 @@ class DataStream:
                     exits = True
                     break
             if not exits:
-                print("Data error, Invalid type of data")
+                print(f"DataStream error, can't processor elements in {dados}")
 
     def print_processors_stats(self) -> None:
         if (len(self._processors) == 0):
@@ -184,7 +184,18 @@ def main() -> None:
             54,
             ['Hi', 'five'],
             ['Ola', 'Mundo'],
-            '42 Gang'
+            '42 Gang',
+            "42 lisboa",
+            "CR7",
+            "Denys",
+            {"Strike": "Dont move weird"},
+            {"CS": "Dont sleep at 42"},
+            {"CS": "Look at your bottle de water"},
+            {"up": "You just passed"},
+            {"down": "You just failt on the exame"},
+            200000,
+            40,
+            [5, 3]
     ]
     print(f"Sending the first bacth of Data stream {dados}")
     stream.process_stream(dados)
@@ -204,9 +215,17 @@ def main() -> None:
     except IndexError as e:
         print(f"{e}")
         return
+    except Exception as e:
+        print(f"{e}")
     stream.print_processors_stats()
     print("Send 3 processed data from each processor to a CSV plugin:")
     stream.output_pipeline(3, CSVExportPlugin())
+    print("== DataStream statistics ==")
+    stream.print_processors_stats()
+    print("Send 5 processed data from each processor to a JSON plugin:")
+    stream.output_pipeline(5, JSONExportPlugin())
+    print("== DataStream statistics ==")
+    stream.print_processors_stats()
 
 
 if __name__ == '__main__':

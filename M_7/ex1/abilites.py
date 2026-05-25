@@ -44,7 +44,7 @@ class Bloomelle(Creature, HealCapability):
         return super().describe()
 
     def attack(self) -> str:
-        return f"{self.name}  uses Petal Dance!"
+        return f"{self.name} uses Petal Dance!"
 
     def heal(self) -> str:
         return f"{self.name} heals itself and others for a large amount"

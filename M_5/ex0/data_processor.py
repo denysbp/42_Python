@@ -3,7 +3,7 @@ from typing import List, Any, Tuple
 
 
 class DataProcessor(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         self.storage: List = []
         self.rank = 0
 
@@ -22,7 +22,7 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     def validate(self, data: Any) -> bool:
@@ -35,7 +35,7 @@ class NumericProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: int | float | list[int | float]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid data for NumericProcessor")
         if isinstance(data, list):
@@ -58,7 +58,7 @@ class TextProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: str | list[str]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid Data for TextProcessor")
         if isinstance(data, list):
@@ -89,19 +89,19 @@ class LogProcessor(DataProcessor):
             return True
         return False
 
-    def ingest(self, data: Any) -> None:
+    def ingest(self, data: dict[str, str] | list[dict[str, str]]) -> None:
         if not self.validate(data):
             raise TypeError("Invalid data for LogPorcessor")
         if isinstance(data, dict):
             for key, value in data.items():
                 message: str = f"{key} : {value}"
                 self.storage.append((self.rank, str(message)))
-            self.rank += 1
+                self.rank += 1
         if isinstance(data, list):
             for item in data:
                 for key, value in item.items():
-                    message: str = f"{key} : {value}"
-                    self.storage.append((self.rank, str(message)))
+                    message_new: str = f"{key} : {value}"
+                    self.storage.append((self.rank, str(message_new)))
                     self.rank += 1
 
 
@@ -113,7 +113,7 @@ def main() -> None:
     print(f"Trying to validate input HELLO: {numeric.validate('HELLO')}")
     print("Trying invalid ingestion of foo:", end=" ")
     try:
-        numeric.ingest("foo")
+        numeric.ingest("foo")  # preposital
     except TypeError as e:
         print(f"{e}")
     print("Processing data: [5, 4, 3, 2, 1]")
