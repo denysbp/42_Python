@@ -7,7 +7,7 @@ class FlameFactory(CreatureFactory):
         return Flameling("Flameling", "Fire")
 
     def create_evolved(self) -> Creature:
-        return Pyrodon("Pyrodon", "Fire")
+        return Pyrodon("Pyrodon", "Fire/Flying")
 
 
 class AquaFactory(CreatureFactory):

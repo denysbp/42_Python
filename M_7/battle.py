@@ -20,6 +20,8 @@ if __name__ == '__main__':
         base_flame = flame.create_base()
         aqua_base = aqua.create_base()
 
+        print("\n")
+        print("Testing battle")
         print(base_flame.describe())
         print("\t\t vs")
         print(aqua_base.describe())

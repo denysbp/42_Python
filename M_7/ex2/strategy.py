@@ -1,6 +1,11 @@
 from abc import ABC, abstractmethod
 from ex0.creature import Creature
 from ex1.abilites import TransformCapability, HealCapability
+from typing import cast
+
+
+class InvalidStrategyError(Exception):
+    pass
 
 
 class BattleStrategy(ABC):
@@ -19,7 +24,7 @@ class NormalStrategy(BattleStrategy):
 
     def act(self, creature: Creature) -> None:
         if not self.is_valid(creature):
-            raise Exception(f"The {creature.name} is \
+            raise InvalidStrategyError(f"The {creature.name} is \
 not valid for this method")
         print(creature.attack())
 
@@ -30,11 +35,12 @@ class AggressiveStrategy(BattleStrategy):
 
     def act(self, creature: Creature) -> None:
         if not self.is_valid(creature):
-            raise Exception(f"The {creature.name} is \
+            raise InvalidStrategyError(f"The {creature.name} is \
 not valid for this method")
-        print(creature.transform())
+        tcreature = cast(TransformCapability, creature)
+        print(tcreature.transform())
         print(creature.attack())
-        print(creature.revert())
+        print(tcreature.revert())
 
 
 class DefensiveStrategy(BattleStrategy):
@@ -43,7 +49,8 @@ class DefensiveStrategy(BattleStrategy):
 
     def act(self, creature: Creature) -> None:
         if not self.is_valid(creature):
-            raise Exception(f"The {creature.name} is \
+            raise InvalidStrategyError(f"The {creature.name} is \
 not valid for this method")
+        hcreature = cast(HealCapability, creature)
         print(creature.attack())
-        print(creature.heal())
+        print(hcreature.heal())
