@@ -1,18 +1,16 @@
-[project]
-name = "loading"
-version = "1"
-description = "for the exercice 1"
-authors = [
-    {name = "deferrei"}
-]
-requires-python = ">=3.12"
-dependencies = [
-    "numpy (>=2.4.6,<3.0.0)",
-    "requests (>=2.34.2,<3.0.0)",
-    "pandas (>=3.0.3,<4.0.0)",
-    "matplotlib (>=3.10.9,<4.0.0)"
-]
+[tool.poetry]
+name = "ex1"
+version = "0.1.0"
+description = ""
+authors = ["denys"]
+package-mode = false
 
+[tool.poetry.dependencies]
+python = ">=3.10,<3.11"
+numpy = ">=1.24,<2.0"
+pandas = ">=2.2,<3.0"
+matplotlib = ">=3.7,<4.0"
+requests = ">=2.31,<3.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
