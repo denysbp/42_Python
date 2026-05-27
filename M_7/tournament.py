@@ -15,9 +15,9 @@ def battle(lista: List[Tuple[CreatureFactory, BattleStrategy]]) -> None:
                 creature1, strategy1 = lista[i]
                 creature2, strategy2 = lista[j]
                 print(f"[({creature1.name}+\
-{strategy1.__class__.__name__.replace("Strategy", "")}), ", end="")
+{strategy1.__class__.__name__.replace('Strategy', '')}), ", end="")
                 print(f"({creature2.name}+\
-{strategy2.__class__.__name__.replace("Strategy", "")})]")
+{strategy2.__class__.__name__.replace('Strategy', '')})]")
                 print("* Battle *")
                 print(creature1.describe())
                 print("\tvs")
