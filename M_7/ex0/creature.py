@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 class Creature(ABC):
     def __init__(self, name: str, type: str):
+        super().__init__()
         self.name = name
         self.type = type
 

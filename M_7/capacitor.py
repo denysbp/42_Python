@@ -37,6 +37,6 @@ if __name__ == '__main__':
     mutant_evolved = mutant.create_evolved()
     mutant_evolved_cap = cast(TransformCapability, mutant_evolved)
     print(mutant_evolved.describe())
-    print(mutant_evolved_cap.transform())
     print(mutant_evolved.attack())
+    print(mutant_evolved_cap.transform())
     print(mutant_evolved_cap.revert())

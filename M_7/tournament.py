@@ -35,7 +35,7 @@ if __name__ == '__main__':
     flame_factory = FlameFactory()
     aqua_factory = AquaFactory()
     aqua_base = aqua_factory.create_base()
-    flame_base = flame_factory.create_base()
+    flame_base = flame_factory.create_base() 
     healing_factory = HealingCreatureFactory()
     transform_factory = TransformCreatureFactory()
     transform_base = transform_factory.create_base()
