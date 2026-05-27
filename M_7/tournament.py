@@ -9,15 +9,12 @@ from ex1 import TransformCreatureFactory, HealingCreatureFactory
 def battle(lista: List[Tuple[Creature, BattleStrategy]]) -> None:
     print("*** Tournament ***")
     print(f"{len(lista)} opponents involved")
+    print()
     for i in range(len(lista)):
         for j in range(i + 1, len(lista)):
             try:
                 creature1, strategy1 = lista[i]
                 creature2, strategy2 = lista[j]
-                print(f"[({creature1.name}+\
-{strategy1.__class__.__name__.replace('Strategy', '')}), ", end="")
-                print(f"({creature2.name}+\
-{strategy2.__class__.__name__.replace('Strategy', '')})]")
                 print("* Battle *")
                 print(creature1.describe())
                 print("\tvs")
@@ -25,6 +22,7 @@ def battle(lista: List[Tuple[Creature, BattleStrategy]]) -> None:
                 print("now fight!")
                 strategy1.act(creature1)
                 strategy2.act(creature2)
+                print()
             except InvalidStrategyError as e:
                 print(f"Battle error, aborting tournament: {e}")
                 return
@@ -37,30 +35,24 @@ if __name__ == '__main__':
     flame_factory = FlameFactory()
     aqua_factory = AquaFactory()
     aqua_base = aqua_factory.create_base()
-    aqua_evolved = aqua_factory.create_evolved()
     flame_base = flame_factory.create_base()
-    flame_evolved = flame_factory.create_evolved()
     healing_factory = HealingCreatureFactory()
     transform_factory = TransformCreatureFactory()
     transform_base = transform_factory.create_base()
-    transform_evolved = transform_factory.create_evolved()
     healing_base = healing_factory.create_base()
-    healing_evolved = healing_factory.create_evolved()
-    lista = [
-        (flame_base, normal),
-        (aqua_base, normal),
-        (flame_evolved, normal),
-        (aqua_evolved, normal),
-        (healing_base, defensive),
-        (transform_base, agressive),
-        (healing_evolved, defensive),
-        (transform_evolved, agressive)
-    ]
-    battle(lista)
+    print("Tournament 0 (basic)")
+    print(" [ (Flameling+Normal), (Healing+Defensive) ]")
+    battle([(flame_base, normal), (healing_base, defensive)])
     print()
-    print("Testing Invalid battle:")
-    invalid_list = [
-        (healing_evolved, agressive),
-        (transform_evolved, defensive)
-    ]
-    battle(invalid_list)
+    print("Tournament 1 (error)")
+    print(" [ (Flameling+Aggressive), (Healing+Defensive) ]")
+    battle([(flame_base, agressive), (healing_base, defensive)])
+    print()
+    print("Tournament 2 (multiple)")
+    print(" [ (Aquabub+Normal), (Healing+Defensive), \
+(Transform+Aggressive) ]")
+    battle([
+        (aqua_base, normal),
+        (healing_base, defensive),
+        (transform_base, agressive)
+    ])

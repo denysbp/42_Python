@@ -12,8 +12,8 @@ def check_imports(packeage: str, util: str) -> bool:
         print(f"[MISSING] {packeage}")
         return False
     except PackageNotFoundError:
-        print(f"[OK] {packeage} ('unknown') - {util}")
-        return True
+        print(f"[MISSING] {packeage} ('unknown') - {util}")
+        return False
 
 
 def process_data(n: int = 1000) -> dict[str, Any]:
