@@ -6,11 +6,10 @@ authors = ["denys"]
 package-mode = false
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.11"
+python = ">=3.10,<3.12.4"
 numpy = ">=1.24,<2.0"
 pandas = ">=2.2,<3.0"
 matplotlib = ">=3.7,<4.0"
-requests = ">=2.31,<3.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

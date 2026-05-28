@@ -11,7 +11,7 @@ class HealCapability(ABC):
 
 class TransformCapability(ABC):
     def __init__(self) -> None:
-        super().__init__()
+        # super().__init__()
         self.transformed = False
 
     @abstractmethod
@@ -61,7 +61,9 @@ class HealingCreatureFactory(CreatureFactory):
 
 class Shiftling(Creature, TransformCapability):
     def __init__(self, name, type) -> None:
+        # print(self.transformed)
         super().__init__(name, type)
+        print(self.transformed)
 
     def describe(self) -> str:
         return super().describe()

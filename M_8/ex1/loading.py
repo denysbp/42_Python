@@ -1,18 +1,19 @@
 import importlib
-from importlib.metadata import version, PackageNotFoundError
+from importlib.metadata import version
 from typing import Any
 
 
-def check_imports(packeage: str, util: str) -> bool:
+def check_imports(package: str, util: str) -> bool:
     try:
-        importlib.import_module(f"{packeage}")
-        print(f"[OK] {packeage} ({version(packeage)}) - {util}")
+        importlib.import_module(package)
+        try:
+            v = version(package)
+        except Exception:
+            v = "unknown"
+        print(f"[OK] {package} ({v}) - {util}")
         return True
     except ModuleNotFoundError:
-        print(f"[MISSING] {packeage}")
-        return False
-    except PackageNotFoundError:
-        print(f"[MISSING] {packeage} ('unknown') - {util}")
+        print(f"[MISSING] {package}")
         return False
 
 
@@ -38,6 +39,7 @@ def analyze_matrix_data() -> None:
 
     data = process_data(1000)
     df = pd.DataFrame(data)
+    print(df.to_string())
     weird_data = np.percentile(df["score"], 98)
     df["anomaly"] = df["score"] >= weird_data
     plt.plot(df["signal"], label="signal")
@@ -48,7 +50,7 @@ def analyze_matrix_data() -> None:
         s=15,
         label="anomaly"
     )
-    plt.title("Matrix Analize")
+    plt.title("Matrix Analysis")
     plt.legend()
     plt.tight_layout()
     plt.xlabel("index")
@@ -59,16 +61,14 @@ def analyze_matrix_data() -> None:
 
 def main() -> None:
     print("Checking dependencies:")
-    find_np = check_imports("numpy", "Numerical computatio ready")
+    find_np = check_imports("numpy", "Numerical computation ready")
     find_pd = check_imports("pandas", "Data manipulation ready")
-    find_rq = check_imports("requests", "Network access ready")
     find_mat = check_imports("matplotlib", "Visualization ready")
-    if not (find_mat and find_rq and find_np and find_pd):
+    if not (find_mat and find_np and find_pd):
         names = {
             "pandas": find_pd,
             "numpy": find_np,
-            "requests": find_rq,
-            "matplotlib": find_mat
+            "matplotlib": find_mat,
         }
         missing = {name for name, value in names.items() if not value}
         print(f"\nWe detected missing modules: {missing}")
@@ -77,18 +77,17 @@ def main() -> None:
         print("For pip: python3 -m pip install -r requirements.txt")
         print("For poetry: poetry install")
         return
-    print("\n")
+    print()
     print("Analyzing Matrix data...")
-    process_data()
     print("Processing 1000 data points...")
     analyze_matrix_data()
     print("Generating visualization...")
-    print("\n")
+    print()
     print("Analysis complete!")
     print("Results saved to: matrix_analysis.png")
 
 
 if __name__ == "__main__":
     print("LOADING STATUS: Loading programs...")
-    print("\n")
+    print()
     main()
