@@ -39,7 +39,6 @@ def analyze_matrix_data() -> None:
 
     data = process_data(1000)
     df = pd.DataFrame(data)
-    print(df.to_string())
     weird_data = np.percentile(df["score"], 98)
     df["anomaly"] = df["score"] >= weird_data
     plt.plot(df["signal"], label="signal")
