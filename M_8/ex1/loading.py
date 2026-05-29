@@ -35,7 +35,7 @@ def process_data(n: int = 1000) -> dict[str, Any]:
 def analyze_matrix_data() -> None:
     import numpy as np
     import pandas as pd  # type: ignore[import-untyped]
-    import matplotlib.pyplot as plt  # type: ignore[import-not-found]
+    import matplotlib.pyplot as plt  # type: ignore[import-untyped]
 
     data = process_data(1000)
     df = pd.DataFrame(data)
