@@ -42,7 +42,7 @@ class SpaceMission(BaseModel):
         for crew in self.crew:
             if crew.rank == "commander" or crew.rank == "captain":
                 return self
-        return ValueError('Must have at least one Commander or Captain')
+        raise ValueError('Mission must have at least one Commander or Captain')
 
     @model_validator(mode="after")
     def validate_experience(self):
@@ -53,14 +53,14 @@ class SpaceMission(BaseModel):
         if iterator >= len(self.crew) / 2:
             return self
         else:
-            return ValueError("Long missions (> 365 days) need \
+            raise ValueError("Long missions (> 365 days) need \
 50% experienced crew (5+ years)")
 
     @model_validator(mode="after")
     def validate_state(self):
         for crew in self.crew:
             if not crew.is_active:
-                return ValueError("All crew members must be active")
+                raise ValueError("All crew members must be active")
         return self
 
 
@@ -70,7 +70,7 @@ if __name__ == '__main__':
         'mission_name': 'Solar Observatory Research Mission',
         'destination': 'Solar Observatory',
         'launch_date': '2024-03-30T00:00:00',
-        'duration_days': 451,
+        'duration_days': 900,
         'crew': [
             {
                 'member_id': 'CM001',
@@ -98,11 +98,64 @@ if __name__ == '__main__':
                 'specialization': 'Communications',
                 'years_experience': 15,
                 'is_active': True
+            }
+        ],
+        'mission_status': 'planned',
+        'budget_millions': 2500.0
+    }
+    valid_input = SpaceMission.model_validate(valid)
+    print("Space Mission Crew Validation")
+    print("=========================================")
+    print("Valid mission created:")
+    print(f"Mission: {valid_input.mission_name}")
+    print(f"ID: {valid_input.mission_id}")
+    print(f"Destination: {valid_input.destination}")
+    print(f"Duration: {valid_input.duration_days} days")
+    print(f"Budget: ${valid_input.budget_millions}M")
+    print(f"Crew size: {len(valid_input.crew)}")
+    print("Crew members:")
+    for crew in valid_input.crew:
+        print(f"- {crew.name} ({crew.rank.value})")
+    print("=========================================")
+    print("Expected validation error:")
+    invalid = {
+        'mission_id': 'M2024_TITAN',
+        'mission_name': 'Solar Observatory Research Mission',
+        'destination': 'Solar Observatory',
+        'launch_date': '2024-03-30T00:00:00',
+        'duration_days': 451,
+        'crew': [
+            {
+                'member_id': 'CM001',
+                'name': 'Sarah Williams',
+                'rank': 'cadet',
+                'age': 43,
+                'specialization': 'Mission Command',
+                'years_experience': 19,
+                'is_active': True
+            },
+            {
+                'member_id': 'CM002',
+                'name': 'James Hernandez',
+                'rank': 'cadet',
+                'age': 43,
+                'specialization': 'Pilot',
+                'years_experience': 30,
+                'is_active': True
+            },
+            {
+                'member_id': 'CM003',
+                'name': 'Anna Jones',
+                'rank': 'cadet',
+                'age': 35,
+                'specialization': 'Communications',
+                'years_experience': 15,
+                'is_active': True
             },
             {
                 'member_id': 'CM004',
                 'name': 'David Smith',
-                'rank': 'commander',
+                'rank': 'officer',
                 'age': 27,
                 'specialization': 'Security',
                 'years_experience': 15,
@@ -121,6 +174,8 @@ if __name__ == '__main__':
         'mission_status': 'planned',
         'budget_millions': 2208.1
     }
-
-    valid_input = SpaceMission(**valid)
-    
+    try:
+        invalid_input = SpaceMission.model_validate(invalid)
+    except ValidationError as e:
+        msg = e.errors()[0]['msg'].replace("Value error, ", "")
+        print(msg)

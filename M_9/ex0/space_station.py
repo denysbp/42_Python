@@ -24,21 +24,20 @@ if __name__ == '__main__':
         "crew_size": 6,
         "power_level": 85.5,
         "oxygen_level": 92.3,
-        "last_maintenance": '2006-06-29T23:50:32.300+00:00',
+        "last_maintenance": "2006-06-29T23:50:32.300+00:00",
         "notes": "Operational"
     }
 
-    station = SpaceStation(**spacestation)
+    station = SpaceStation.model_validate(spacestation)
     print(f"Id: {station.station_id}")
     print(f"Name: {station.name}")
-    print(f"Crew: {station.crew_size}")
-    print(f"Power: {station.power_level}")
-    print(f"Oxygen: {station.oxygen_level}")
+    print(f"Crew: {station.crew_size} people")
+    print(f"Power: {station.power_level}%")
+    print(f"Oxygen: {station.oxygen_level}%")
     print(f"Status: {station.notes}")
     print()
     print("========================================")
     print("Expected validation error:")
-
     try:
         spacestation_error = {
             "station_id": "ISS001",
@@ -49,6 +48,6 @@ if __name__ == '__main__':
             "last_maintenance": '2006-06-29T23:50:32.300+00:00',
             "notes": "Operational"
         }
-        error_station = SpaceStation(**spacestation_error)
+        error_station = SpaceStation.model_validate(spacestation_error)
     except ValidationError as e:
         print(e.errors()[0]["msg"])

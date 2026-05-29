@@ -68,7 +68,7 @@ if __name__ == '__main__':
         "witness_count": 5,
         "message_received": "'Greetings from Zeta Reticuli'"
     }
-    data = AlienContact(**valid)
+    data = AlienContact.model_validate(valid)
     print(f"ID: {data.contact_id}")
     print(f"Type: {data.contact_type.value}")
     print(f"Location: {data.location}")
@@ -76,8 +76,9 @@ if __name__ == '__main__':
     print(f"Duration: {data.duration_minutes} minutes")
     print(f"Witnesses: {data.witness_count}")
     print(f"Message: {data.message_received}")
+    print()
     print("========================================")
-    print("Valid contact report:")
+    print("Expected validation error:")
     try:
         invalid = {
             "contact_id": "AC_2024_001",
@@ -89,7 +90,7 @@ if __name__ == '__main__':
             "witness_count": 2,
             "message_received": "'Greetings from Zeta Reticuli'"
         }
-        invalid_data = AlienContact(**invalid)
+        invalid_data = AlienContact.model_validate(invalid)
     except ValidationError as e:
         msg = e.errors()[0]["msg"].replace("Value error, ", "")
         print(msg)
